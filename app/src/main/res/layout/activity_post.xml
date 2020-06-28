@@ -57,14 +57,16 @@
             android:layout_gravity="center"
             android:scaleType="centerInside" />
         
-        <com.hendraanggrian.appcompat.widget.SocialTextView
+        <com.hendraanggrian.appcompat.widget.SocialEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/postdescriptionshape"
             android:textAppearance="@style/regular_text"
             android:textSize="16dp"
             android:hint="Description..."
             android:layout_margin="10dp"
-            android:maxLines="5"
+            android:padding="10dp"
+            android:maxLines="2"
             app:socialFlags="hashtag|mention"
             app:hashtagColor="@color/blue"
             android:id="@+id/description"

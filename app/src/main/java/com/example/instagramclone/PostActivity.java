@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.hendraanggrian.appcompat.widget.SocialEditText;
 import com.hendraanggrian.appcompat.widget.SocialTextView;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -39,7 +40,7 @@ public class PostActivity extends AppCompatActivity {
     private ImageView close, image;
     private String imageUrl;
     private TextView post;
-    private SocialTextView description;
+    private SocialEditText description;
     private Uri imageUri;
 
     @Override
@@ -123,7 +124,7 @@ public class PostActivity extends AppCompatActivity {
                     }
 
                     progressDialog.dismiss();
-                    Toast.makeText(PostActivity.this, "Image added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, "Post added", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(PostActivity.this, MainActivity.class));
                     finish();
 

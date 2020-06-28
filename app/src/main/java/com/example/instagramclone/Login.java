@@ -56,7 +56,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void loginUser() {
-        ProgressDialog progressDialog = new ProgressDialog(Login.this);
+        final ProgressDialog progressDialog = new ProgressDialog(Login.this);
         progressDialog.setMessage("Please wait");
         progressDialog.show();
 
