@@ -3,11 +3,13 @@ package com.example.instagramclone;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,10 @@ public class Login extends AppCompatActivity {
     }
 
     private void loginUser() {
+        ProgressDialog progressDialog = new ProgressDialog(Login.this);
+        progressDialog.setMessage("Please wait");
+        progressDialog.show();
+
         String txtEmail = email.getText().toString();
         String txtPass  = password.getText().toString();
 
@@ -74,5 +80,8 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        progressDialog.dismiss();
+
     }
 }
