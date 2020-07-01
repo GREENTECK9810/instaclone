@@ -37,7 +37,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
                     android:textColor="@color/lightblack"
-                    android:gravity="right"/>
+                    android:gravity="right"
+                    android:background="?attr/selectableItemBackground"/>
                 
             </RelativeLayout>
             

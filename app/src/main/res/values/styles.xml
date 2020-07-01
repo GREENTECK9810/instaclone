@@ -14,4 +14,10 @@
         <item name="android:textSize">15dp</item>
     </style>
 
+    <style name="bold_text">
+        <item name="android:fontFamily">@font/proxima_nova_bold</item>
+        <item name="color">@color/lightblack</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
 </resources>
