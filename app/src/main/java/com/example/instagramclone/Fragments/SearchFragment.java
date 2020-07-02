@@ -2,7 +2,9 @@ package com.example.instagramclone.Fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -11,9 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.instagramclone.Model.User;
 import com.example.instagramclone.R;
-import com.example.instagramclone.adaptors.SectionPagerAdapter;
+import com.example.instagramclone.Adapters.SectionPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class SearchFragment extends Fragment {
@@ -21,6 +29,7 @@ public class SearchFragment extends Fragment {
     View myFragment;
     ViewPager viewPager;
     TabLayout tabLayout;
+    SearchView searchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,9 +39,13 @@ public class SearchFragment extends Fragment {
 
         viewPager = myFragment.findViewById(R.id.viewpager);
         tabLayout = myFragment.findViewById(R.id.tablayout);
+        searchView = myFragment.findViewById(R.id.search);
+
 
         return myFragment;
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -64,7 +77,7 @@ public class SearchFragment extends Fragment {
         SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         adapter.addFragment(new SearchAccountFragment(), "ACCOUNT");
-        adapter.addFragment(new SearchHashtagFragment(), "TAGS");
+        adapter.addFragment(new SearchHashtagFragment(), "HASHTAGS");
 
         viewPager.setAdapter(adapter);
     }

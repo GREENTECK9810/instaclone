@@ -36,15 +36,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="2dp"
         android:text="name"
-        android:textColor="@color/lightblack"/>
+        android:textColor="@color/gray"/>
 
-    <ImageView
-        android:id="@+id/close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_close_black_24dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="18dp"/>
 
 </RelativeLayout>
