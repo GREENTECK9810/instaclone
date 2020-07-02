@@ -77,7 +77,7 @@ public class SearchFragment extends Fragment {
         SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         adapter.addFragment(new SearchAccountFragment(), "ACCOUNT");
-        adapter.addFragment(new SearchHashtagFragment(), "HASHTAGS");
+        adapter.addFragment(new SearchHashtagFragment(), "TAGS");
 
         viewPager.setAdapter(adapter);
     }

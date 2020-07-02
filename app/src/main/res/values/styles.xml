@@ -20,4 +20,7 @@
         <item name="android:textSize">15dp</item>
     </style>
 
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/proxima_nova_bold</item>
+    </style>
 </resources>
