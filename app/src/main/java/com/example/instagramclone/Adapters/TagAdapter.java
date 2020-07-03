@@ -36,7 +36,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.tagName.setText(mTags.get(position).getTag());
-        holder.postCount.setText(mTags.get(position).getPostCount());
+        holder.postCount.setText(mTags.get(position).getPostCount() + "");
     }
 
     @Override

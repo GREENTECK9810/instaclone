@@ -108,14 +108,14 @@ public class SearchFragment extends Fragment {
         listenerTag = null;
     }
 
-    private void searchTag(final String s) {
+    private void searchTag(String s) {
         if(TextUtils.isEmpty(s)){
             mTags.clear();
             listenerTag.tagDataSent(mTags);
             return;
         }
 
-        FirebaseDatabase.getInstance().getReference().child("Hashtags").startAt(s).endAt(s + "\uf8ff").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Hashtags").orderByKey().startAt(s).endAt(s + "\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mTags.clear();
