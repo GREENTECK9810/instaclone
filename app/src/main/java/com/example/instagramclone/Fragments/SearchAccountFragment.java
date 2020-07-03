@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.example.instagramclone.Adapters.UserAdapter;
+import com.example.instagramclone.Model.HashTag;
 import com.example.instagramclone.Model.User;
 import com.example.instagramclone.R;
 import com.google.firebase.database.DataSnapshot;
@@ -24,16 +27,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 
-public class SearchAccountFragment extends Fragment {
+
+public class SearchAccountFragment extends Fragment implements SearchFragment.fragmentSearchListener{
 
     View view;
     RecyclerView usersList;
     List<User> mUsers;
     UserAdapter adapter;
+    TextView textView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,71 +55,30 @@ public class SearchAccountFragment extends Fragment {
         usersList.setLayoutManager(new LinearLayoutManager(getContext()));
         mUsers = new ArrayList<>();
         adapter = new UserAdapter(getContext(), mUsers, true);
+        textView = view.findViewById(R.id.text);
 
         usersList.setAdapter(adapter);
-
-        SearchFragment searchFragment = ((SearchFragment)SearchAccountFragment.this.getParentFragment());
-        searchFragment.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchUser(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchUser(newText);
-                return true;
-            }
-        });
-
-
-        //readUsers();
 
         return view;
     }
 
-    private void searchUser(String s) {
-        if(TextUtils.isEmpty(s)){
+
+    @Override
+    public void userDataSent(List<User> users, String s) {
+        if(users != null){
+            textView.setText(s);
             mUsers.clear();
+            for (User user : users){
+                mUsers.add(user);
+            }
             adapter.notifyDataSetChanged();
             return;
         }
 
-        Query query = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("username").startAt(s).endAt(s + "\uf8ff");
+        mUsers.clear();
+        adapter.notifyDataSetChanged();
 
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mUsers.clear();
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    mUsers.add(snapshot.getValue(User.class));
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
-//    private void readUsers() {
-//
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if(TextUtils.isEmpty(search.getQuery().toString())){
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
+
 }
