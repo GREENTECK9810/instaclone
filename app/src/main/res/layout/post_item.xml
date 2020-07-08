@@ -16,18 +16,17 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@mipmap/ic_launcher"
                 android:layout_margin="12dp"
-                android:id="@+id/ownerimage"/>
+                android:id="@+id/authorimage"/>
             
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/ownerimage"
+                android:layout_toRightOf="@id/authorimage"
                 android:layout_margin="16dp"
                 android:textAppearance="@style/bold_text"
-                android:text="owner name"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:id="@+id/postauthorname"/>
             
             <ImageView
                 android:layout_width="28dp"
@@ -58,7 +57,7 @@
             app:layout_constraintDimensionRatio="1:1"
             xmlns:tools="http://schemas.android.com/tools"
             tools:ignore="MissingConstraints"
-            android:src="@drawable/ic_outline_image_24"/>
+            android:id="@+id/postimage"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -100,7 +99,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/bold_text"
         android:textSize="16dp"
-        android:text="2837 likes"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
         android:id="@+id/like_count"/>
@@ -110,17 +108,15 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/bold_text"
         android:textSize="16dp"
-        android:text="post owner"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
-        android:id="@+id/postownername"/>
+        android:id="@+id/authornamebelow"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/regular_text"
         android:textSize="16dp"
-        android:text="some description"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
         android:id="@+id/description"/>
@@ -130,7 +126,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/regular_text"
         android:textSize="16dp"
-        android:text="View all 90 comments"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
         android:id="@+id/no_of_comments"
