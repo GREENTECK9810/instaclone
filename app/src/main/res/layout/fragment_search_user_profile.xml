@@ -75,38 +75,62 @@
             android:layout_centerVertical="true">
 
             <TableLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true">
 
-                <TableRow
-                    android:gravity="center">
+                <TableRow>
 
                     <TextView
-                        android:layout_marginRight="86dp"
                         android:id="@+id/postcount"
                         android:text="12"
                         android:textAppearance="@style/bold_text"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
 
                     <TextView
-                        android:layout_marginRight="86dp"
                         android:id="@+id/followercount"
                         android:text="232"
                         android:textAppearance="@style/bold_text"
-                        android:textSize="16dp"/>
+                        android:textSize="16dp"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/followingcount"
                         android:text="50"
                         android:textAppearance="@style/bold_text"
-                        android:textSize="16dp"/>
+                        android:textSize="16dp"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
 
                 </TableRow>
 
 
 
                 <TableRow>
+
+                    <TextView
+                        android:text="posts"
+                        android:textAppearance="@style/regular_text"
+                        android:textSize="16dp"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:text="followers"
+                        android:textAppearance="@style/regular_text"
+                        android:textSize="16dp"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:text="following"
+                        android:textAppearance="@style/regular_text"
+                        android:textSize="16dp"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
 
                 </TableRow>
 
@@ -117,5 +141,66 @@
 
 
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/bold_text"
+        android:text="Name"
+        android:textSize="16dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/lightblack"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="6"
+        android:textAppearance="@style/regular_text"
+        android:text="Bio"
+        android:layout_marginLeft="20dp"
+        android:textSize="16dp"/>
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp">
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/followbutton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@drawable/login_signup_shape"
+                android:textAppearance="@style/bold_text"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:text="Follow"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_marginRight="6dp"/>
+
+            <Button
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@drawable/messageshape"
+                android:textAppearance="@style/bold_text"
+                android:textSize="16dp"
+                android:textColor="@color/lightblack"
+                android:text="Message"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_marginLeft="6dp"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+
+
+
+
 
 </LinearLayout>
