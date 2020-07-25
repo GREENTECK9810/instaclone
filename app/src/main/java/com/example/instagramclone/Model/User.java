@@ -8,6 +8,24 @@ public class User {
     private String id;
     private String imageurl;
     private String bio;
+    private String followers;
+    private String following;
+
+    public String getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(String followers) {
+        this.followers = followers;
+    }
+
+    public String getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(String following) {
+        this.following = following;
+    }
 
     public String getName() {
         return name;

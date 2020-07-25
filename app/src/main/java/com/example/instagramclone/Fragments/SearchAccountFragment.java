@@ -17,6 +17,7 @@ import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.example.instagramclone.Adapters.UserAdapter;
+import com.example.instagramclone.MainActivity;
 import com.example.instagramclone.Model.HashTag;
 import com.example.instagramclone.Model.User;
 import com.example.instagramclone.R;
