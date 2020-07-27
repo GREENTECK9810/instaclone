@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<RelativeLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
-    tools:context=".Fragments.SearchUserProfileFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:stateListAnimator="@null"
+        android:id="@+id/appbar">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:stateListAnimator="@null">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -57,171 +57,214 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="84dp"
-            android:layout_height="84dp"
-            android:layout_margin="20dp"
-            android:src="@mipmap/ic_launcher"
-            android:id="@+id/userimage" />
 
-        <RelativeLayout
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar">
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/userimage"
-            android:layout_centerVertical="true">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:id="@+id/linearlayout"
+            tools:context=".Fragments.SearchUserProfileFragment">
 
-            <TableLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="84dp"
+                    android:layout_height="84dp"
+                    android:layout_margin="20dp"
+                    android:src="@mipmap/ic_launcher"
+                    android:id="@+id/userimage" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/userimage"
+                    android:layout_centerVertical="true">
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true">
+
+                        <TableRow>
+
+                            <TextView
+                                android:id="@+id/postcount"
+                                android:text="12"
+                                android:textAppearance="@style/bold_text"
+                                android:textSize="12dp"
+                                android:gravity="center"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:id="@+id/followercount"
+                                android:text="232"
+                                android:textAppearance="@style/bold_text"
+                                android:textSize="12dp"
+                                android:gravity="center"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:id="@+id/followingcount"
+                                android:text="50"
+                                android:textAppearance="@style/bold_text"
+                                android:textSize="12dp"
+                                android:gravity="center"
+                                android:layout_weight="1"/>
+
+                        </TableRow>
+
+
+
+                        <TableRow>
+
+                            <TextView
+                                android:text="posts"
+                                android:textAppearance="@style/regular_text"
+                                android:textSize="16dp"
+                                android:gravity="center"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:text="followers"
+                                android:textAppearance="@style/regular_text"
+                                android:textSize="16dp"
+                                android:gravity="center"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:text="following"
+                                android:textAppearance="@style/regular_text"
+                                android:textSize="16dp"
+                                android:gravity="center"
+                                android:layout_weight="1"/>
+
+                        </TableRow>
+
+                    </TableLayout>
+
+                </RelativeLayout>
+
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/fullname"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true">
+                android:textAppearance="@style/bold_text"
+                android:text="Name"
+                android:textSize="12dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/lightblack"/>
 
-                <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="6"
+                android:textAppearance="@style/regular_text"
+                android:text="Bio"
+                android:layout_marginLeft="20dp"
+                android:textSize="12dp"/>
 
-                    <TextView
-                        android:id="@+id/postcount"
-                        android:text="12"
-                        android:textAppearance="@style/bold_text"
-                        android:textSize="12dp"
-                        android:gravity="center"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:id="@+id/followercount"
-                        android:text="232"
-                        android:textAppearance="@style/bold_text"
-                        android:textSize="12dp"
-                        android:gravity="center"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:id="@+id/followingcount"
-                        android:text="50"
-                        android:textAppearance="@style/bold_text"
-                        android:textSize="12dp"
-                        android:gravity="center"
-                        android:layout_weight="1"/>
-
-                </TableRow>
-
-
-
-                <TableRow>
-
-                    <TextView
-                        android:text="posts"
-                        android:textAppearance="@style/regular_text"
-                        android:textSize="16dp"
-                        android:gravity="center"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:text="followers"
-                        android:textAppearance="@style/regular_text"
-                        android:textSize="16dp"
-                        android:gravity="center"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:text="following"
-                        android:textAppearance="@style/regular_text"
-                        android:textSize="16dp"
-                        android:gravity="center"
-                        android:layout_weight="1"/>
-
-                </TableRow>
-
-            </TableLayout>
-
-        </RelativeLayout>
-
-
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/fullname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/bold_text"
-        android:text="Name"
-        android:textSize="12dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/lightblack"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="6"
-        android:textAppearance="@style/regular_text"
-        android:text="Bio"
-        android:layout_marginLeft="20dp"
-        android:textSize="12dp"/>
-
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp">
-
-        <TableRow>
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:layout_marginRight="6dp">
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:visibility="visible">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TableRow>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:layout_marginRight="6dp">
+
+                            <Button
+                                android:id="@+id/follow"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/login_signup_shape"
+                                android:textAppearance="@style/bold_text"
+                                android:textSize="12dp"
+                                android:textColor="@color/white"
+                                android:text="Follow"
+                                android:visibility="visible"/>
+
+                            <Button
+                                android:id="@+id/following"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/messageshape"
+                                android:textAppearance="@style/bold_text"
+                                android:textSize="12dp"
+                                android:textColor="@color/lightblack"
+                                android:text="Following"
+                                android:visibility="gone"/>
+
+                        </FrameLayout>
+
+
+
+                        <Button
+                            android:id="@+id/message"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:background="@drawable/messageshape"
+                            android:textAppearance="@style/bold_text"
+                            android:textSize="12dp"
+                            android:textColor="@color/lightblack"
+                            android:text="Message"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="6dp"
+                            android:visibility="visible"/>
+
+                    </TableRow>
+
+                </TableLayout>
 
                 <Button
-                    android:id="@+id/follow"
+                    android:id="@+id/editprofile"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/login_signup_shape"
-                    android:textAppearance="@style/bold_text"
-                    android:textSize="12dp"
-                    android:textColor="@color/white"
-                    android:text="Follow"
-                    android:visibility="visible"/>
-
-                <Button
-                    android:id="@+id/following"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="30dp"
                     android:background="@drawable/messageshape"
                     android:textAppearance="@style/bold_text"
                     android:textSize="12dp"
                     android:textColor="@color/lightblack"
-                    android:text="Following"
+                    android:text="Edit Profile"
+                    android:gravity="center"
+                    android:layout_weight="1"
                     android:visibility="gone"/>
 
             </FrameLayout>
 
 
+        </LinearLayout>
 
-            <Button
-                android:id="@+id/message"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@drawable/messageshape"
-                android:textAppearance="@style/bold_text"
-                android:textSize="12dp"
-                android:textColor="@color/lightblack"
-                android:text="Message"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:layout_marginLeft="6dp"/>
 
-        </TableRow>
 
-    </TableLayout>
+    </FrameLayout>
 
 
 
 
+</RelativeLayout>
 
-
-</LinearLayout>

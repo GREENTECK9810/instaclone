@@ -10,7 +10,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:stateListAnimator="@null">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
@@ -59,6 +60,14 @@
             android:layout_margin="20dp"
             android:src="@mipmap/ic_launcher"
             android:id="@+id/userimage" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_add_circle_24"
+            android:tint="@color/blue"
+            android:layout_alignBottom="@+id/userimage"
+            android:layout_alignRight="@+id/userimage" />
 
         <RelativeLayout
             android:layout_width="match_parent"

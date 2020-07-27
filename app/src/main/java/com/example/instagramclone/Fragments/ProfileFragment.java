@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class ProfileFragment extends Fragment {
 
     private Button logout;
+    private Button editProfile;
 
 
     @Override
@@ -27,6 +28,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         logout = view.findViewById(R.id.logout);
+        editProfile = view.findViewById(R.id.editprofile);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +36,18 @@ public class ProfileFragment extends Fragment {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getActivity(), SignUp.class));
                 getActivity().finish();
+            }
+        });
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new EditProfileFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
+
             }
         });
 

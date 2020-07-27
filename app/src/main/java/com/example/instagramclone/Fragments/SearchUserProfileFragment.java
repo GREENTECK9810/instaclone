@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.instagramclone.Model.User;
@@ -27,7 +31,7 @@ public class SearchUserProfileFragment extends Fragment {
 
     private TextView userName, postCount, followerCount, followingCount, fullName;
     private CircleImageView userImage;
-    private Button followButton, messageButton, followingButton;
+    private Button followButton, messageButton, followingButton, editProfile;
     private User user;
     private String userid;
 
@@ -46,11 +50,12 @@ public class SearchUserProfileFragment extends Fragment {
         followButton = view.findViewById(R.id.follow);
         messageButton = view.findViewById(R.id.message);
         followingButton = view.findViewById(R.id.following);
+        editProfile = view.findViewById(R.id.editprofile);
+
 
         userid = getArguments().getString("userid");
 
         inflateProfile();
-        isFollowed();
 
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +99,8 @@ public class SearchUserProfileFragment extends Fragment {
     }
 
     private void inflateProfile() {
+
+
 
         FirebaseDatabase.getInstance().getReference().child("Users").orderByKey().equalTo(userid).addValueEventListener(new ValueEventListener() {
             @Override
@@ -141,7 +148,14 @@ public class SearchUserProfileFragment extends Fragment {
             }
         });
 
+        isFollowed();
 
+        if(userid.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+            editProfile.setVisibility(View.VISIBLE);
+            followButton.setVisibility(View.GONE);
+            followingButton.setVisibility(View.GONE);
+            messageButton.setVisibility(View.GONE);
+        }
 
 
     }
