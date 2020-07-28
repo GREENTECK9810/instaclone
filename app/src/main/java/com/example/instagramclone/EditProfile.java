@@ -88,45 +88,47 @@ public class EditProfile extends AppCompatActivity {
 
     private void upload() {
 
-        final ProgressDialog progressDialog = new ProgressDialog(EditProfile.this);
+        ProgressDialog progressDialog = new ProgressDialog(EditProfile.this);
         progressDialog.setMessage("Uploading");
         progressDialog.show();
 
+        //upload new profile photo
         if(imageUri != null){
             final StorageReference filepath = FirebaseStorage.getInstance().getReference("Profile Photo")
                     .child(System.currentTimeMillis() + getFileExtension(imageUri));
 
             //Delete previous user profile photo
-//            FirebaseDatabase.getInstance().getReference().child("Users").orderByKey()
-//                    .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-//                                user = snapshot.getValue(User.class);
-//
-//                            }
-//                            String url = "string";
-//                            url = user.getImageurl();
-//
-//                            FirebaseStorage.getInstance().getReference("Profile Photo").child(url).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                @Override
-//                                public void onSuccess(Void aVoid) {
-//
-//                                }
-//                            }).addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//
-//                                }
-//                            });
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                        }
-//                    });
+            FirebaseDatabase.getInstance().getReference().child("Users").orderByKey()
+                    .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                user = snapshot.getValue(User.class);
+
+                            }
+                            String url = "string";
+                            url = user.getImageurl();
+
+                            StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+                            photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
 
             StorageTask uploadTask = filepath.putFile(imageUri);
             uploadTask.continueWithTask(new Continuation() {
@@ -159,6 +161,7 @@ public class EditProfile extends AppCompatActivity {
             });
         }
 
+        //update name and username
         if(!TextUtils.isEmpty(name.getText()) || !TextUtils.isEmpty(username.getText())){
 
             if(!TextUtils.isEmpty(name.getText())){
@@ -196,6 +199,7 @@ public class EditProfile extends AppCompatActivity {
 
         progressDialog.dismiss();
         Toast.makeText(EditProfile.this, "Profile updated", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(EditProfile.this, MainActivity.class));
         finish();
 
     }
