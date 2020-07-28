@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.instagramclone.EditProfile;
 import com.example.instagramclone.R;
 import com.example.instagramclone.SignUp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,11 +43,8 @@ public class ProfileFragment extends Fragment {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new EditProfileFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, fragment)
-                        .addToBackStack(null)
-                        .commit();
+
+                startActivity(new Intent(getActivity(), EditProfile.class));
 
             }
         });
