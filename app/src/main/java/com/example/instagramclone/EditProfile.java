@@ -14,6 +14,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,8 +89,8 @@ public class EditProfile extends AppCompatActivity {
 
     private void upload() {
 
-        ProgressDialog progressDialog = new ProgressDialog(EditProfile.this);
-        progressDialog.setMessage("Uploading");
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading");
         progressDialog.show();
 
         //upload new profile photo
@@ -99,36 +100,37 @@ public class EditProfile extends AppCompatActivity {
 
             //Delete previous user profile photo
             FirebaseDatabase.getInstance().getReference().child("Users").orderByKey()
-                    .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                    .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        user = snapshot.getValue(User.class);
+
+                    }
+                    String url = "string";
+                    url = user.getImageurl();
+
+                    StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+                    photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        public void onSuccess(Void aVoid) {
 
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                user = snapshot.getValue(User.class);
-
-                            }
-                            String url = "string";
-                            url = user.getImageurl();
-
-                            StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(url);
-                            photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-
-                                }
-                            });
                         }
-
+                    }).addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        public void onFailure(@NonNull Exception e) {
 
                         }
                     });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
 
             StorageTask uploadTask = filepath.putFile(imageUri);
             uploadTask.continueWithTask(new Continuation() {

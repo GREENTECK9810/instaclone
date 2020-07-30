@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/bold_text"
                     android:textColor="@color/lightblack"
-                    android:textSize="12dp"
+                    android:textSize="16dp"
                     android:text="Username"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/back"
@@ -58,17 +58,12 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/appbar">
-
-
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:layout_below="@+id/appbar"
             android:background="@color/white"
             android:id="@+id/linearlayout"
             tools:context=".Fragments.SearchUserProfileFragment">
@@ -259,10 +254,22 @@
 
         </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/white"
+        android:visibility="gone"
+        android:layout_below="@+id/appbar">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/gray"/>
 
 
-    </FrameLayout>
-
+    </RelativeLayout>
 
 
 

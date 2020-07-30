@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class SearchAccountFragment extends Fragment implements SearchFragment.fr
     List<User> mUsers;
     UserAdapter adapter;
     TextView textView;
+    FrameLayout frameLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,13 +52,14 @@ public class SearchAccountFragment extends Fragment implements SearchFragment.fr
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_search_account, container, false);
         usersList = view.findViewById(R.id.userlist);
+        frameLayout = view.findViewById(R.id.progress);
 
 
         usersList.setHasFixedSize(true);
         usersList.setLayoutManager(new LinearLayoutManager(getContext()));
         mUsers = new ArrayList<>();
         adapter = new UserAdapter(getContext(), mUsers, true);
-        textView = view.findViewById(R.id.text);
+        textView = view.findViewById(R.id.searchtext);
 
         usersList.setAdapter(adapter);
 

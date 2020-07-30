@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -101,6 +102,9 @@ public class PostActivity extends AppCompatActivity {
                     String postId = ref.push().getKey();
 
                     HashMap<String, Object> map = new HashMap<>();
+                    map.put("commentscount", (int)0);
+                    map.put("likescount", (int)0);
+                    map.put("createdAt", ServerValue.TIMESTAMP);
                     map.put("postid", postId);
                     map.put("imageurl", imageUrl);
                     map.put("description", description.getText().toString());

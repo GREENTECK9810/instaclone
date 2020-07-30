@@ -34,6 +34,7 @@ public class SearchUserProfileFragment extends Fragment {
     private Button followButton, messageButton, followingButton, editProfile;
     private User user;
     private String userid;
+    private RelativeLayout progressBar;
 
 
     @Override
@@ -51,6 +52,7 @@ public class SearchUserProfileFragment extends Fragment {
         messageButton = view.findViewById(R.id.message);
         followingButton = view.findViewById(R.id.following);
         editProfile = view.findViewById(R.id.editprofile);
+        progressBar = view.findViewById(R.id.progressbar);
 
 
         userid = getArguments().getString("userid");
@@ -100,7 +102,7 @@ public class SearchUserProfileFragment extends Fragment {
 
     private void inflateProfile() {
 
-
+        progressBar.setVisibility(View.VISIBLE);
 
         FirebaseDatabase.getInstance().getReference().child("Users").orderByKey().equalTo(userid).addValueEventListener(new ValueEventListener() {
             @Override
@@ -139,7 +141,7 @@ public class SearchUserProfileFragment extends Fragment {
 
                             }
                         });
-
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -156,6 +158,7 @@ public class SearchUserProfileFragment extends Fragment {
             followingButton.setVisibility(View.GONE);
             messageButton.setVisibility(View.GONE);
         }
+
 
 
     }

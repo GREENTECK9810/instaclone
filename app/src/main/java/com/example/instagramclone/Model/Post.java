@@ -6,13 +6,27 @@ public class Post {
     private String publisher;
     private String imageurl;
     private String postid;
+    private int likescount;
+    private int commentscount;
+    private Long createdAt;
 
-    public Post(String description, String publisher, String imageurl, String postid) {
-        this.description = description;
-        this.publisher = publisher;
-        this.imageurl = imageurl;
-        this.postid = postid;
+    public int getLikescount() {
+        return likescount;
     }
+
+    public int getCommentscount() {
+        return commentscount;
+    }
+
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
 
     public String getDescription() {
         return description;

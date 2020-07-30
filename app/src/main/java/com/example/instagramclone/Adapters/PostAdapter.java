@@ -1,6 +1,7 @@
 package com.example.instagramclone.Adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 Picasso.get().load(user.getImageurl()).into(holder.authorImage);
                 holder.authorName.setText(user.getUsername());
                 holder.authorNameBelow.setText(user.getUsername());
+
             }
 
             @Override
@@ -62,6 +64,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
             }
         });
+
+        Picasso.get().load(post.getImageurl()).into(holder.postImage);
+
+        if(TextUtils.isEmpty(post.getDescription())){
+            holder.description.setVisibility(View.GONE);
+            holder.authorNameBelow.setVisibility(View.GONE);
+        }else {
+            holder.description.setText(post.getDescription());
+        }
+        if(TextUtils.isEmpty(post.getLikescount() + "")){
+            holder.noOfLikes.setVisibility(View.GONE);
+        }else {
+            holder.noOfLikes.setText(post.getLikescount() + " likes");
+        }
+        if(TextUtils.isEmpty(post.getCommentscount() + "")){
+            holder.noOfComments.setVisibility(View.GONE);
+        }else {
+            holder.noOfComments.setText("View all " + post.getCommentscount() + " comments");
+        }
 
     }
 

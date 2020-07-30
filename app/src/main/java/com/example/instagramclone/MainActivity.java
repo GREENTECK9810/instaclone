@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(selectorFragment != null){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectorFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectorFragment).addToBackStack(null).commit();
                 }else{
                     startActivity(new Intent(MainActivity.this, PostActivity.class));
                     finish();
