@@ -21,9 +21,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -33,6 +36,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.net.URL;
 import java.security.CryptoPrimitive;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,6 +47,8 @@ public class PostActivity extends AppCompatActivity {
     private TextView post;
     private SocialEditText description;
     private Uri imageUri;
+    private List<String> mFollowers;
+    private int followersCount = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,7 @@ public class PostActivity extends AppCompatActivity {
         image = findViewById(R.id.image);
         post = findViewById(R.id.post);
         description = findViewById(R.id.description);
+        mFollowers = new ArrayList<>();
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,14 +69,54 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+        getFollowers();
+
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                upload();
+
+                while (true){
+                    if(followersCount == mFollowers.size() && followersCount != -1){
+                        upload();
+                        break;
+                    }
+                }
+
             }
         });
 
+
+
         CropImage.activity().start(PostActivity.this);
+
+    }
+
+    private void getFollowers() {
+
+        // getting all followers list to update their timeline at one time
+        FirebaseDatabase.getInstance().getReference().child("Follow").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Followers")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        followersCount = (int) dataSnapshot.getChildrenCount();
+
+                        if(dataSnapshot.exists()){
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                mFollowers.add(snapshot.getKey());
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+
+                    }
+                });
 
     }
 
@@ -98,34 +145,8 @@ public class PostActivity extends AppCompatActivity {
                     Uri downloadUri = task.getResult();
                     imageUrl = downloadUri.toString();
 
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
-                    String postId = ref.push().getKey();
 
-                    HashMap<String, Object> map = new HashMap<>();
-                    map.put("commentscount", (int)0);
-                    map.put("likescount", (int)0);
-                    map.put("createdAt", ServerValue.TIMESTAMP);
-                    map.put("postid", postId);
-                    map.put("imageurl", imageUrl);
-                    map.put("description", description.getText().toString());
-                    map.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-                    ref.child(postId).setValue(map);
-
-                    DatabaseReference mHashTagRef = FirebaseDatabase.getInstance().getReference("Hashtags");
-
-                    List<String> hashTags = description.getHashtags();
-
-                    if (!hashTags.isEmpty()) {
-                        for (String tag : hashTags) {
-                            map.clear();
-
-                            map.put("tag", tag.toLowerCase());
-                            map.put("postid", postId);
-
-                            mHashTagRef.child(tag.toLowerCase()).child(postId).setValue(map);
-                        }
-                    }
+                    doPost(imageUrl, mFollowers);
 
                     progressDialog.dismiss();
                     Toast.makeText(PostActivity.this, "Post added", Toast.LENGTH_SHORT).show();
@@ -143,6 +164,49 @@ public class PostActivity extends AppCompatActivity {
             Toast.makeText(this, "No image was selected", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void doPost(String imageUrl, List<String> followers) {
+        HashMap<String, Object> fanout = new HashMap<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
+        DatabaseReference timelineRef = FirebaseDatabase.getInstance().getReference("Timeline");
+        String postId = ref.push().getKey();
+
+        for (int i = 0; i < followers.size(); i++){
+            fanout.put(followers.get(i) + "/" + postId, true);
+        }
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("commentscount", (int)0);
+        map.put("likescount", (int)0);
+        map.put("createdAt", ServerValue.TIMESTAMP);
+        map.put("postid", postId);
+        map.put("imageurl", imageUrl);
+        map.put("description", description.getText().toString());
+        map.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        ref.child(postId).setValue(map);
+        if (!followers.isEmpty()){
+            timelineRef.updateChildren(fanout);
+        }
+
+
+
+        DatabaseReference mHashTagRef = FirebaseDatabase.getInstance().getReference("Hashtags");
+
+        List<String> hashTags = description.getHashtags();
+
+        if (!hashTags.isEmpty()) {
+            for (String tag : hashTags) {
+                map.clear();
+
+                map.put("tag", tag.toLowerCase());
+                map.put("postid", postId);
+
+                mHashTagRef.child(tag.toLowerCase()).child(postId).setValue(map);
+            }
+        }
     }
 
     private String getFileExtension(Uri uri) {

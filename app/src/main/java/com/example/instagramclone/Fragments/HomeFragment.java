@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.instagramclone.Adapters.PostAdapter;
 import com.example.instagramclone.Model.Post;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -29,7 +31,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewPost;
     private PostAdapter postAdapter;
     private List<Post> mPosts;
-    private List<String> mFollowing;
+    private List<String> mpostIdList;
+    private LinearLayoutManager layoutManager;
+    private String lastPostId;
 
 
     @Override
@@ -40,33 +44,123 @@ public class HomeFragment extends Fragment {
 
         recyclerViewPost = view.findViewById(R.id.recycler_view_post);
         mPosts = new ArrayList<>();
-        mFollowing = new ArrayList<>();
+        mpostIdList = new ArrayList<>();
         postAdapter = new PostAdapter(mPosts, getContext());
 
         recyclerViewPost.setHasFixedSize(true);
-        recyclerViewPost.setLayoutManager(new LinearLayoutManager(getContext()));
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerViewPost.setLayoutManager(layoutManager);
 
         recyclerViewPost.setAdapter(postAdapter);
 
-        getFollowing();
+        getPostId();
+
+        recyclerViewPost.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE){
+                    getMorePosts();
+                }
+
+            }
+        });
 
         return view;
     }
 
-    private void getPosts() {
+    private void getMorePosts() {
+
+        if(lastPostId == null){
+            return;
+        }
+
+        Query reference = FirebaseDatabase.getInstance().getReference().child("Timeline")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).orderByKey().endAt(lastPostId).limitToLast(6);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.exists()){
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        if(!mpostIdList.contains(snapshot.getKey())){
+                            mpostIdList.add(snapshot.getKey());
+                        }
+                    }
+                    if(lastPostId != mpostIdList.get(0)){
+                        lastPostId = mpostIdList.get(0);
+                    }
+                    if(mpostIdList.size() == 6){
+                        mpostIdList.remove(0);
+                    }else{
+                        lastPostId = null;
+                    }
+                    getPosts(mpostIdList);
+                    mpostIdList.clear();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void getPostId() {
+
+        Query reference = FirebaseDatabase.getInstance().getReference().child("Timeline")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).limitToLast(6);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.exists()){
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        if(!mpostIdList.contains(snapshot.getKey())){
+                            mpostIdList.add(snapshot.getKey());
+                        }
+                    }
+                   lastPostId = mpostIdList.get(0);
+                    if(mpostIdList.size() == 6){
+                        mpostIdList.remove(0);
+                    }
+                    getPosts(mpostIdList);
+                    mpostIdList.clear();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void getPosts(List<String> postList) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Posts");
 
-        for (int i = 0; i < mFollowing.size(); i++){
-            reference.orderByChild("publisher").equalTo(mFollowing.get(i)).addValueEventListener(new ValueEventListener() {
+        for (String postId : postList){
+
+            reference.orderByKey().equalTo(postId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists()){
+                    if (dataSnapshot.exists()){
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            Post post = snapshot.getValue(Post.class);
-                            mPosts.add(post);
+                            if (!mPosts.contains(snapshot.getValue(Post.class))){
+                                mPosts.add(snapshot.getValue(Post.class));
+                                postAdapter.notifyDataSetChanged();
+                            }
+
                         }
-                        postAdapter.notifyDataSetChanged();
                     }
                 }
 
@@ -75,30 +169,10 @@ public class HomeFragment extends Fragment {
 
                 }
             });
+
         }
 
     }
 
-    private void getFollowing() {
 
-        FirebaseDatabase.getInstance().getReference().child("Follow").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Following")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()){
-                            for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                mFollowing.add(snapshot.getKey());
-                            }
-                            getPosts();
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-    }
 }
